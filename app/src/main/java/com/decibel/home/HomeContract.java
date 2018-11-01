@@ -48,4 +48,13 @@ public interface HomeContract {
         void fetchRoomsWithMostVacantSeats(int cap);
     }
 
+    interface HomeView {
+
+    }
+
+    interface HomePresenter {
+
+        void storeRooms();
+    }
+
 }

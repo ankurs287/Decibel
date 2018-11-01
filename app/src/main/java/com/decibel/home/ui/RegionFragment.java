@@ -1,5 +1,6 @@
 package com.decibel.home.ui;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class RegionFragment extends Fragment implements HomeContract.RegionView {
 
@@ -34,6 +36,7 @@ public class RegionFragment extends Fragment implements HomeContract.RegionView 
     private RoomsAdapter mRoomsAdapter;
     private String region = "Library";
     private ArrayList<String> regionsArrayList = new ArrayList<>();
+    private ProgressDialog progressDialog;
 
     @Nullable
     @Override
@@ -51,6 +54,16 @@ public class RegionFragment extends Fragment implements HomeContract.RegionView 
         return rootView;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mRoomsAdapter == null || mRoomsAdapter.getItemCount() == 0) {
+            progressDialog = new ProgressDialog(getContext());
+            progressDialog.setMessage("Loading..");
+            progressDialog.show();
+        }
+    }
+
     private void setupSpinner() {
         mPresenter.fetchRegions();
 
@@ -61,20 +74,6 @@ public class RegionFragment extends Fragment implements HomeContract.RegionView 
                 mPresenter.fetchRooms(regionsArrayList.get(position));
             }
         });
-
-//        spRegion.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parentView, View selectedItemView,
-//                    int position, long id) {
-//                mPresenter.fetchRooms("", regionsArrayList.get(position));
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parentView) {
-//                mRoomsAdapter.setData(null);
-//            }
-//
-//        });
     }
 
     private void setupRV() {
@@ -89,12 +88,13 @@ public class RegionFragment extends Fragment implements HomeContract.RegionView 
 
     @Override
     public void fetchRoomsError() {
+        progressDialog.cancel();
         Log.d(TAG, "Error fetching rooms");
     }
 
     @Override
     public void fetchRoomsSuccess(ArrayList<Room> rooms) {
-//        Log.d(TAG, rooms.toString());
+        progressDialog.cancel();
         mRoomsAdapter.setData(rooms);
     }
 
@@ -107,17 +107,15 @@ public class RegionFragment extends Fragment implements HomeContract.RegionView 
     public void fetchRegionsSuccess(ArrayList<String> regions) {
         regionsArrayList = regions;
 
-//        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(Objects.requireNonNull(getContext
-// ()),
-//                android.R.layout.simple_spinner_item, regionsArrayList);
-//        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        spRegion.setAdapter(dataAdapter);
-//        spRegion.setSelection(regionsArrayList.indexOf("Library"));
-
-
         spRegion.setItems(regions);
         spRegion.setSelectedIndex(regionsArrayList.indexOf("Library"));
-
     }
 
+    @OnClick(R.id.tv_reload)
+    public void onReloadClicked() {
+        progressDialog = new ProgressDialog(getContext());
+        progressDialog.setMessage("Refreshing..");
+        progressDialog.show();
+        mPresenter.fetchRooms(region);
+    }
 }

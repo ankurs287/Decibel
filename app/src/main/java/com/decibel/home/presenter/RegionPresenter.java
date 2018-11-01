@@ -11,6 +11,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class RegionPresenter implements HomeContract.RegionPresenter {
 
@@ -36,7 +38,8 @@ public class RegionPresenter implements HomeContract.RegionPresenter {
                                 room.setId(doc.getId());
                                 rooms.add(room);
                             }
-                            mRegionView.fetchRoomsSuccess(rooms);
+//                            mRegionView.fetchRoomsSuccess(rooms);
+                            fetchNoise(rooms);
                         } else {
                             mRegionView.fetchRoomsError();
                         }
@@ -60,6 +63,53 @@ public class RegionPresenter implements HomeContract.RegionPresenter {
                         } else {
                             String message = "";
                             mRegionView.fetchRegionsError(message);
+                        }
+                    }
+                });
+    }
+
+    private void fetchNoise(final ArrayList<Room> rooms) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        final HashMap<String, ArrayList<Integer>> hashMap = new HashMap<>();
+        db.collection("users").get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (DocumentSnapshot doc : task.getResult()) {
+                                Map<String, Object> data = doc.getData();
+                                String mac = (String) data.get("room");
+                                Long noise = (Long) data.get("noise");
+
+                                if (hashMap.containsKey(mac)) {
+                                    ArrayList<Integer> noises = hashMap.get(mac);
+                                    noises.add(noise.intValue());
+                                } else {
+                                    hashMap.put(mac, new ArrayList<Integer>());
+                                    ArrayList<Integer> noises = hashMap.get(mac);
+                                    noises.add(noise.intValue());
+                                }
+
+                            }
+
+                            for (Room r : rooms) {
+                                if (hashMap.containsKey(r.getMac())) {
+                                    ArrayList<Integer> noises = hashMap.get(r.getMac());
+                                    int dc = noises.size();
+                                    int noise = 0;
+                                    for (Integer i : noises) {
+                                        noise += i;
+                                    }
+                                    noise /= dc;
+                                    r.setN_devices(dc);
+                                    r.setNoiseStrength(noise);
+                                }
+                            }
+
+                            mRegionView.fetchRoomsSuccess(rooms);
+                        } else {
+                            String message = "";
+                            mRegionView.fetchRoomsError();
                         }
                     }
                 });

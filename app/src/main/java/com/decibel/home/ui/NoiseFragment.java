@@ -1,5 +1,6 @@
 package com.decibel.home.ui;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -16,11 +17,13 @@ import com.decibel.home.HomeContract;
 import com.decibel.home.adapter.RoomsAdapter;
 import com.decibel.home.presenter.NoisePresenter;
 import com.decibel.model.Room;
+import com.decibel.utils.Constants;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class NoiseFragment extends Fragment implements HomeContract.NoiseView {
 
@@ -29,6 +32,7 @@ public class NoiseFragment extends Fragment implements HomeContract.NoiseView {
     @BindView(R.id.rv_rooms)
     RecyclerView rvRooms;
     private RoomsAdapter mRoomsAdapter;
+    private ProgressDialog progressDialog;
 
     @Nullable
     @Override
@@ -45,6 +49,16 @@ public class NoiseFragment extends Fragment implements HomeContract.NoiseView {
         return rootView;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mRoomsAdapter == null || mRoomsAdapter.getItemCount() == 0) {
+            progressDialog = new ProgressDialog(getContext());
+            progressDialog.setMessage("Loading..");
+            progressDialog.show();
+        }
+    }
+
     private void setupRV() {
         LinearLayoutManager llm = new LinearLayoutManager(getContext());
         rvRooms.setLayoutManager(llm);
@@ -52,17 +66,27 @@ public class NoiseFragment extends Fragment implements HomeContract.NoiseView {
         mRoomsAdapter = new RoomsAdapter();
         rvRooms.setAdapter(mRoomsAdapter);
 
-        mPresenter.fetchRoomsWithLeastNoise(10);
+        mPresenter.fetchRoomsWithLeastNoise(Constants.CAP);
     }
 
     @Override
     public void fetchRoomsError() {
+        progressDialog.cancel();
         Log.d(TAG, "Error fetching rooms");
     }
 
     @Override
     public void fetchRoomsSuccess(ArrayList<Room> rooms) {
         mRoomsAdapter.setData(rooms);
+        progressDialog.cancel();
+    }
+
+    @OnClick(R.id.tv_reload)
+    public void onReloadClicked() {
+        progressDialog = new ProgressDialog(getContext());
+        progressDialog.setMessage("Refreshing..");
+        progressDialog.show();
+        mPresenter.fetchRoomsWithLeastNoise(Constants.CAP);
     }
 
 }
