@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "791599457079",
+    "firebase_url": "https://decibel-fef02.firebaseio.com",
+    "project_id": "decibel-fef02",
+    "storage_bucket": "decibel-fef02.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:791599457079:android:184db4b3b1118b26",
+        "android_client_info": {
+          "package_name": "com.decibel"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "791599457079-g7js5nvo2bmm753q9q974uojtsr0733j.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.decibel",
+            "certificate_hash": "8e58bc4fed8c0307778f26668663b20fc7131422"
+          }
+        },
+        {
+          "client_id": "791599457079-qu3uvklgqiu99dnbe4udt8eb4a9bj6nd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDVXoYRGivcxxck-ArxQhD58pRx22t3XO8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "791599457079-qu3uvklgqiu99dnbe4udt8eb4a9bj6nd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
