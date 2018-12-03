@@ -8,6 +8,7 @@ public class Room {
     private String mac;
     private int vacancy;
     private int noiseStrength;
+    private int n_devices;
 
     public Room() {
 
@@ -61,6 +62,14 @@ public class Room {
         this.id = id;
     }
 
+    public int getN_devices() {
+        return n_devices;
+    }
+
+    public void setN_devices(int n_devices) {
+        this.n_devices = n_devices;
+    }
+
     @Override
     public String toString() {
         return "Room{" +
@@ -70,6 +79,7 @@ public class Room {
                 ", mac='" + mac + '\'' +
                 ", vacancy=" + vacancy +
                 ", noiseStrength=" + noiseStrength +
+                ", n_devices=" + n_devices +
                 '}';
     }
 }
