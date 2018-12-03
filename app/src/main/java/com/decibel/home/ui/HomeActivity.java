@@ -14,6 +14,9 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 
 import com.decibel.R;
 import com.decibel.home.HomeContract;
@@ -28,11 +31,18 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.Home
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 102;
 
     private HomePresenter mPresenter;
+    ImageView bg;
+    Animation bganim;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        bg = findViewById(R.id.bg);
+        bganim = AnimationUtils.loadAnimation(this,R.anim.bganimation);
+        bg.animate().translationY(-2500).setDuration(1000).setStartDelay(2000);
+
         ButterKnife.bind(this);
 
         mPresenter = new HomePresenter(this);
