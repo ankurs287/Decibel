@@ -31,7 +31,18 @@ public class RoomsAdapter extends RecyclerView.Adapter<RoomsAdapter.ViewHolder> 
     public void onBindViewHolder(@NonNull ViewHolder holder, int i) {
         Room room = mRoomsArrayList.get(i);
         holder.tvRoom.setText(room.getRoom());
-        holder.tvNoiseStrength.setText(String.valueOf(room.getNoiseStrength()));
+        int noise = room.getNoiseStrength();
+        if(noise<=50){
+            holder.tvNoiseStrength.setText("Low");
+        }
+        else if(noise<=70){
+            holder.tvNoiseStrength.setText("Medium");
+        }
+        else{
+            holder.tvNoiseStrength.setText("High");
+        }
+
+        //holder.tvNoiseStrength.setText(String.valueOf(room.getNoiseStrength()));
         holder.tvVacancy.setText(String.valueOf(room.getVacancy()));
 
 //        holder.tvRegion.setText(room.getRegion());

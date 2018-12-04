@@ -71,7 +71,8 @@ public class RegionFragment extends Fragment implements HomeContract.RegionView 
 
             @Override
             public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
-                mPresenter.fetchRooms(regionsArrayList.get(position));
+                region = regionsArrayList.get(position);
+                mPresenter.fetchRooms(region);
             }
         });
     }
