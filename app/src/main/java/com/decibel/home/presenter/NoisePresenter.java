@@ -1,8 +1,6 @@
 package com.decibel.home.presenter;
-
 import android.support.annotation.NonNull;
 import android.util.Log;
-
 import com.decibel.home.HomeContract;
 import com.decibel.model.Room;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -37,6 +35,7 @@ public class NoisePresenter implements HomeContract.NoisePresenter {
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
                         if (task.isSuccessful()) {
                             ArrayList<Room> rooms = new ArrayList<>();
                             for (DocumentSnapshot doc : task.getResult()) {
@@ -53,6 +52,7 @@ public class NoisePresenter implements HomeContract.NoisePresenter {
                         }
                     }
                 });
+
     }
 
     private void fetchNoise(final ArrayList<Room> rooms, final int cap) {

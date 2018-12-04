@@ -97,9 +97,9 @@ public class VacantPresenter implements HomeContract.VacantPresenter {
                                 @Override
                                 public int compare(Room room, Room t1) {
                                     if (room.getVacancy() > t1.getVacancy()) {
-                                        return +1;
-                                    } else if (room.getVacancy() < t1.getVacancy()) {
                                         return -1;
+                                    } else if (room.getVacancy() < t1.getVacancy()) {
+                                        return +1;
                                     } else {
                                         if (room.getNoiseStrength() > t1.getNoiseStrength()) {
                                             return -1;
