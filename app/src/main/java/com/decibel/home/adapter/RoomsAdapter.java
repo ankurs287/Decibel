@@ -43,7 +43,7 @@ public class RoomsAdapter extends RecyclerView.Adapter<RoomsAdapter.ViewHolder> 
         }
 
         //holder.tvNoiseStrength.setText(String.valueOf(room.getNoiseStrength()));
-        holder.tvVacancy.setText(String.valueOf(room.getVacancy()));
+        holder.tvVacancy.setText(String.valueOf(room.getVacancy() - room.getN_devices()));
 
 //        holder.tvRegion.setText(room.getRegion());
 //        holder.tvFloor

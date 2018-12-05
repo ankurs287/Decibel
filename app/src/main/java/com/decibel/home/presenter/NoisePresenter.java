@@ -42,6 +42,9 @@ public class NoisePresenter implements HomeContract.NoisePresenter {
                                 Room room = doc.toObject(Room.class);
                                 room.setId(doc.getId());
                                 rooms.add(room);
+                                if(doc.getId().equals("AAA111")){
+                                    Log.d("lol", room.toString());
+                                }
                             }
                             fetchNoise(rooms, cap);
                         } else {
@@ -78,17 +81,24 @@ public class NoisePresenter implements HomeContract.NoisePresenter {
                                 }
                             }
 
+                            Log.d("lol", hashMap.toString());
+
                             for (Room r : rooms) {
+                                if(r.getMac().equals("74:a2:e6:3f:69:78")){
+                                    Log.d("lol", r.toString());
+                                }
                                 if (hashMap.containsKey(r.getMac())) {
+
                                     ArrayList<Integer> noises = hashMap.get(r.getMac());
                                     int dc = noises.size();
-                                    int noise = 0;
+                                    float noise = 0;
                                     for (Integer i : noises) {
                                         noise += i;
                                     }
-                                    noise /= dc;
+                                    noise /= 1;
                                     r.setN_devices(dc);
-                                    r.setNoiseStrength(noise);
+                                    r.setNoiseStrength((int) noise + 1);
+                                    Log.d("lol2", String.valueOf(noise));
                                 }
                             }
 

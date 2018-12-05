@@ -113,7 +113,7 @@ public class NoiseService extends Service {
                     Log.d(TAG, "Noise: " + avg);
 
                     HashMap<String, Object> hashMap = new HashMap<>();
-                    hashMap.put("region", bssid);
+                    hashMap.put("room", bssid);
                     hashMap.put("noise", avg);
 
                     db.collection("users")
